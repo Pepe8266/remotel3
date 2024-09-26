@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  apache:
+    build: ./apache2
+    container_name: apache_container
+    ports:
+      - "80:80"
+    volumes:
+      - ./apache2/html:/usr/local/apache2/htdocs/
+    depends_on:
+      - mongo
+  
+  mongo:
+    image: mongo:latest
+    container_name: mongo_container
+    environment:
+      - MONGO_INITDB_DATABASE=usersdb
+    volumes:
+      - ./mongodb:/docker-entrypoint-initdb.d
+
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto_container
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    restart: unless-stopped
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: nodered_container
+    ports:
+      - "1880:1880"
+    depends_on:
+      - mosquitto
+    restart: unless-stopped
+ 
+  backend:
+    build: ./backend
+    container_name: backend_container
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+      - mosquitto

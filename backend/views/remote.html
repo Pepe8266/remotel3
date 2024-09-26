@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Remoto</title>
+</head>
+<body>
+    <h1>Control Remoto</h1>
+    <form action="/remote" method="post">
+        <input type="hidden" name="username" value="usuario">
+        <button name="action" value="on_off">Encender/Apagar</button><br>
+        <button name="action" value="vol+">Subir Volumen</button><br>
+        <button name="action" value="vol-">Bajar Volumen</button><br>
+        <button name="action" value="ch+">Canal +</button><br>
+        <button name="action" value="ch-">Canal -</button><br>
+    </form>
+</body>
+</html>
